@@ -4,7 +4,7 @@
 --   Feature A: STORED PROCEDURE + TRANSACTION  (sp_add_paper)
 --   Feature B: STORED FUNCTION                 (fn_citation_count)
 --   Feature C: FULL-TEXT SEARCH + INDEXING     (already in 01 / Q8 in 02)
--- Member 2 should take TRIGGER and VIEW so the team covers 4+ distinct concepts.
+-- Member 2 covers TRIGGERS and VIEWS in 04_member2_advanced.sql (team total: 6 concepts).
 -- Run this file in the MySQL command line client or Workbench (it uses DELIMITER).
 -- =====================================================================
 USE researchlens;
@@ -62,35 +62,21 @@ DELIMITER ;
 -- =====================================================================
 
 -- Test 1: successful call -> paper, topic link and author link all created
-CALL sp_add_paper('Graph Neural Networks Survey', 2022, '10.1000/gnn.2022.01',
+CALL sp_add_paper('Graph Neural Networks Survey', 2022, NULL,
                   'A survey of graph neural networks.', 'IEEE TNNLS', 2, 1, @new_id);
 SELECT @new_id AS new_paper_id;
 SELECT * FROM paper_topic  WHERE paper_id = @new_id;
 SELECT * FROM paper_author WHERE paper_id = @new_id;
 
--- Test 2: failing call (duplicate DOI) -> ROLLBACK, nothing inserted
--- Expect: ERROR 1062 Duplicate entry. Then the count below must be unchanged.
-SELECT COUNT(*) AS papers_before FROM research_paper;
-CALL sp_add_paper('Duplicate DOI test', 2022, '10.1000/gnn.2022.01',
-                  'x', 'x', 2, 1, @bad_id);
-SELECT COUNT(*) AS papers_after FROM research_paper;   -- same as papers_before
+-- Test 2 (duplicate DOI -> ROLLBACK) is an EXPECTED-ERROR test, so it lives in
+-- 05_validation_and_negative_tests.sql together with the other failing demos.
+-- Keeping every file in 01-04 error-free means the whole setup can be run
+-- top-to-bottom (and by Docker's init scripts) without stopping.
 
 -- Test 3: function
 SELECT paper_id, title, fn_citation_count(paper_id) AS times_cited
 FROM research_paper
 ORDER BY times_cited DESC;
 
--- =====================================================================
--- DATA VALIDATION / INTEGRITY DEMOS (each statement should FAIL - screenshot errors)
--- =====================================================================
-INSERT INTO research_paper (title, publication_year) VALUES ('Bad year', 1500);          -- chk_publication_year
-INSERT INTO citation (citing_paper_id, cited_paper_id) VALUES (1,1);                      -- chk_no_self_citation
-INSERT INTO users (name,email,password_hash,role) VALUES ('X','x@x.com','h','HACKER');    -- chk_user_role
-INSERT INTO paper_topic (paper_id, topic_id) VALUES (9999, 1);                            -- foreign key
-INSERT INTO author (name) VALUES (NULL);                                                  -- NOT NULL
-
--- ALTER / DROP demonstration (requirement 5)
-ALTER TABLE author ADD COLUMN orcid VARCHAR(30);
-ALTER TABLE author DROP COLUMN orcid;
-CREATE TABLE temp_demo (id INT);
-DROP TABLE temp_demo;
+-- Data-validation / integrity demos and the ALTER/DROP demo were moved to
+-- 05_validation_and_negative_tests.sql (they are expected to fail).

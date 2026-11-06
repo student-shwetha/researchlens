@@ -4,13 +4,9 @@
 -- =====================================================================
 USE researchlens;
 
--- NOTE: the password_hash values below are placeholders. Member 2's register
--- API will create real bcrypt hashes. Never store plain-text passwords.
-INSERT INTO users (name, email, password_hash, role) VALUES
- ('Shwetha S',          'shwetha@example.com',  '$2b$10$placeholderhashADMIN000000000000000000000000000000000', 'ADMIN'),
- ('Pratistha Majumder', 'pratistha@example.com','$2b$10$placeholderhashADMIN111111111111111111111111111111111', 'ADMIN'),
- ('Arjun Rao',          'arjun@example.com',    '$2b$10$placeholderhashSTUD222222222222222222222222222222222', 'STUDENT'),
- ('Meera Nair',         'meera@example.com',    '$2b$10$placeholderhashSTUD333333333333333333333333333333333', 'STUDENT');
+-- Accounts are created through the app so no predictable credentials are
+-- inserted into the database. Promote a trusted registered account using
+-- scripts/promote-admin.mjs after setup.
 
 INSERT INTO research_domain (domain_name, description) VALUES
  ('Computer Science', 'Computing, algorithms and information systems'),
@@ -32,17 +28,17 @@ INSERT INTO research_topic (subdomain_id, topic_name, description) VALUES
  (4, 'Quantum Computing', 'Computation using quantum states');
 
 INSERT INTO research_paper (title, publication_year, doi, pdf_url, abstract, journal) VALUES
- ('Attention Is All You Need', 2017, '10.5555/3295222.3295349', 'https://example.com/attention.pdf',
+ ('Attention Is All You Need', 2017, '10.48550/arXiv.1706.03762', 'https://arxiv.org/pdf/1706.03762',
   'We propose the Transformer, a network architecture based solely on attention mechanisms for sequence transduction.', 'NeurIPS'),
- ('BERT: Pre-training of Deep Bidirectional Transformers', 2019, '10.18653/v1/N19-1423', 'https://example.com/bert.pdf',
+ ('BERT: Pre-training of Deep Bidirectional Transformers', 2019, '10.18653/v1/N19-1423', 'https://aclanthology.org/N19-1423.pdf',
   'We introduce BERT, a language representation model that pre-trains deep bidirectional representations from unlabeled text.', 'NAACL'),
- ('Efficient Query Processing in Relational Databases', 2020, '10.1000/dbqp.2020.01', 'https://example.com/dbqp.pdf',
+ ('Efficient Query Processing in Relational Databases', 2020, NULL, NULL,
   'This paper studies cost-based query optimization techniques for large relational database systems.', 'VLDB Journal'),
- ('Approximate Nearest Neighbor Search with Vector Indexes', 2021, '10.1000/vec.2021.07', 'https://example.com/ann.pdf',
+ ('Approximate Nearest Neighbor Search with Vector Indexes', 2021, NULL, NULL,
   'We survey HNSW and IVF indexes for similarity search over high-dimensional embeddings in vector databases.', 'ACM TODS'),
- ('CRISPR-Cas9 Genome Editing: A Review', 2018, '10.1000/crispr.2018.03', 'https://example.com/crispr.pdf',
+ ('CRISPR-Cas9 Genome Editing: A Review', 2018, NULL, NULL,
   'A review of the CRISPR-Cas9 system and its applications in precise genome editing.', 'Nature Reviews'),
- ('Quantum Supremacy Using a Programmable Processor', 2019, '10.1000/qs.2019.10', 'https://example.com/qs.pdf',
+ ('Quantum Supremacy Using a Programmable Processor', 2019, '10.1038/s41586-019-1666-5', 'https://arxiv.org/pdf/1910.11333',
   'We report the use of a programmable superconducting processor to perform a task intractable for classical computers.', 'Nature');
 
 INSERT INTO author (name, affiliation, email) VALUES
@@ -72,14 +68,81 @@ INSERT INTO citation (citing_paper_id, cited_paper_id, citation_context) VALUES
  (4,1,'Transformer embeddings are the main input to vector indexes'),
  (4,3,'Vector indexes compared with relational query optimization');
 
-INSERT INTO search_history (user_id, query, search_type, results_count) VALUES
- (3,'transformer','keyword',2),
- (3,'database','keyword',2),
- (4,'quantum','keyword',1);
+-- ---------------------------------------------------------------------
+-- Extra sample data (added for the final project) so that search,
+-- filters and the semantic "similar papers" feature have enough papers
+-- to show meaningful results. IDs continue from the rows above.
+-- Rows without a reliable identity are left unlinked here; sql/08 replaces
+-- them with sourceable papers. The other identified papers have verified links.
+-- ---------------------------------------------------------------------
+INSERT INTO research_topic (subdomain_id, topic_name, description) VALUES
+ (1, 'Computer Vision', 'Teaching machines to understand images and video'),      -- topic 7
+ (3, 'Protein Structure Prediction', 'Predicting 3D protein structure from sequence'), -- topic 8
+ (4, 'Quantum Error Correction', 'Protecting quantum information from noise');    -- topic 9
 
-INSERT INTO saved_search (user_id, query, search_type) VALUES
- (3,'transformer','keyword'),
- (4,'quantum','keyword');
+INSERT INTO research_paper (title, publication_year, doi, pdf_url, abstract, journal) VALUES
+ ('Deep Residual Learning for Image Recognition', 2016, '10.1109/CVPR.2016.90', 'https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf',
+  'We present a residual learning framework that eases the training of very deep convolutional networks by learning residual functions with shortcut connections, winning image classification benchmarks.', 'CVPR'),
+ ('Language Models are Few-Shot Learners', 2020, '10.48550/arXiv.2005.14165', 'https://arxiv.org/pdf/2005.14165',
+  'We train a 175 billion parameter autoregressive transformer language model and show that scaling greatly improves few-shot performance on many natural language tasks without fine-tuning.', 'NeurIPS'),
+ ('ImageNet Classification with Deep Convolutional Neural Networks', 2012, '10.1145/3065386', 'https://proceedings.neurips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf',
+  'A large deep convolutional neural network trained on GPUs with ReLU activations and dropout achieves record accuracy on the ImageNet image classification challenge.', 'NeurIPS'),
+ ('Highly Accurate Protein Structure Prediction with AlphaFold', 2021, '10.1038/s41586-021-03819-2', 'https://www.nature.com/articles/s41586-021-03819-2.pdf',
+  'A deep learning system using attention-based neural networks predicts the three-dimensional structure of proteins from amino acid sequences with near-experimental accuracy.', 'Nature'),
+ ('The Case for Learned Index Structures', 2018, '10.1145/3183713.3196909', 'https://arxiv.org/pdf/1712.01208',
+  'We show that B-tree and hash indexes in database systems can be replaced by machine learning models that learn the data distribution, reducing memory and lookup time.', 'SIGMOD'),
+ ('Billion-Scale Similarity Search with GPUs', 2019, '10.1109/TBDATA.2019.2921572', 'https://arxiv.org/pdf/1702.08734',
+  'We describe a GPU implementation of nearest neighbor search with product quantization that indexes billions of high-dimensional vectors for fast similarity search.', 'IEEE Transactions on Big Data'),
+ ('Surface Codes: Towards Practical Large-Scale Quantum Computation', 2012, '10.1103/RevModPhys.87.1379', 'https://arxiv.org/pdf/1208.0928',
+  'We review the surface code, a quantum error correcting code with a high error threshold that allows fault-tolerant quantum computation on a two-dimensional array of qubits.', 'Physical Review A'),
+ ('Dense Passage Retrieval for Open-Domain Question Answering', 2020, '10.18653/v1/2020.emnlp-main.550', 'https://aclanthology.org/2020.emnlp-main.550.pdf',
+  'Dense vector representations of passages learned with a dual BERT encoder outperform sparse keyword retrieval for open-domain question answering.', 'EMNLP'),
+ ('Programmable Editing of a Target Base in Genomic DNA', 2016, '10.1038/nature17946', 'https://www.nature.com/articles/nature17946.pdf',
+  'Base editing converts one DNA base into another at a target genomic locus using a modified CRISPR-Cas9 system without causing double-stranded DNA breaks.', 'Nature'),
+ ('Learned Cardinality Estimation for Query Optimization', 2019, NULL, NULL,
+  'A deep learning model estimates the cardinality of joins in relational database queries, giving the query optimizer better cost estimates than traditional histograms.', 'CIDR');
+-- papers 7..16
+
+INSERT INTO author (name, affiliation, email) VALUES
+ ('Kaiming He',         'Microsoft Research',  'khe@example.com'),
+ ('Tom Brown',          'OpenAI',              'tbrown@example.com'),
+ ('Alex Krizhevsky',    'University of Toronto','akrizhevsky@example.com'),
+ ('John Jumper',        'DeepMind',            'jjumper@example.com'),
+ ('Tim Kraska',         'MIT',                 'tkraska@example.com'),
+ ('Jeff Johnson',       'Facebook AI Research','jjohnson@example.com'),
+ ('Austin Fowler',      'UC Santa Barbara',    'afowler@example.com'),
+ ('Vladimir Karpukhin', 'Facebook AI Research','vkarpukhin@example.com'),
+ ('Alexis Komor',       'Harvard University',  'akomor@example.com'),
+ ('Andreas Kipf',       'TU Munich',           'akipf@example.com');
+-- authors 7..16
+
+INSERT INTO keyword (keyword_name) VALUES
+ ('residual network'), ('image classification'), ('protein folding'), ('learned index'),
+ ('quantum error correction'), ('question answering'), ('cardinality estimation'), ('few-shot learning');
+-- keywords 9..16
+
+INSERT INTO paper_topic (paper_id, topic_id) VALUES
+ (7,2),(7,7),(8,1),(8,2),(9,2),(9,7),(10,8),(10,2),(11,3),(12,4),(13,9),(13,6),(14,1),(14,4),(15,5),(16,3);
+
+INSERT INTO paper_author (paper_id, author_id, author_order) VALUES
+ (7,7,1),(8,8,1),(9,9,1),(10,10,1),(11,11,1),(11,16,2),(12,12,1),(13,13,1),(14,14,1),(14,2,2),(15,15,1),(16,16,1),(16,11,2);
+
+INSERT INTO paper_keyword (paper_id, keyword_id) VALUES
+ (7,9),(7,10),(8,3),(8,16),(8,1),(9,10),(10,11),(11,12),(11,4),(12,6),(12,5),(13,13),(13,8),(14,14),(14,5),(15,7),(16,15),(16,4);
+
+INSERT INTO citation (citing_paper_id, cited_paper_id, citation_context) VALUES
+ (8,1,'GPT-3 uses the Transformer decoder'),
+ (8,2,'Compared against BERT-style fine-tuning'),
+ (14,2,'Passage encoders are initialised from BERT'),
+ (14,12,'FAISS is used for the dense vector index'),
+ (4,12,'FAISS GPU indexes are surveyed'),
+ (7,9,'Builds on deep convolutional networks for ImageNet'),
+ (10,1,'Attention mechanisms adapted for protein structure'),
+ (11,3,'Learned models replace classical index structures'),
+ (16,3,'Improves cost estimates used by the optimizer'),
+ (16,11,'Related learned database components'),
+ (6,13,'Error correction is needed beyond NISQ devices'),
+ (5,15,'Base editing reviewed as a CRISPR extension');
 
 -- =====================================================================
 -- DML demonstration: UPDATE / DELETE / extra INSERT

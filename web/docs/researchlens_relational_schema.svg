@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2600" height="1480" viewBox="0 0 2600 1480" role="img" aria-labelledby="title description">
+  <title id="title">ResearchLens Relational Schema — SQL Tables Only</title>
+  <desc id="description">Relational schema diagram for all tables created by the ResearchLens SQL scripts. Each table lists columns and marks primary keys, foreign keys, composite keys, and unique constraints.</desc>
+  <defs>
+    <style>
+      text { font-family: "Segoe UI", Arial, sans-serif; fill: #18243a; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 17px; fill: #526174; }
+      .group { fill: #f5f8fb; stroke: #c8d2dc; stroke-width: 1.5; }
+      .group-title { font-size: 19px; font-weight: 700; fill: #32465c; }
+      .table { fill: #fff; stroke: #394b60; stroke-width: 1.8; }
+      .table-head { fill: #e7eef5; stroke: #394b60; stroke-width: 1.8; }
+      .table-name { font-size: 16px; font-weight: 700; }
+      .col { font-size: 14px; }
+      .pk { font-weight: 700; text-decoration: underline; }
+      .fk { fill: #a5313e; font-weight: 700; }
+      .uk { fill: #72531b; font-weight: 700; }
+      .line { stroke: #354052; stroke-width: 1.8; fill: none; }
+      .legend { font-size: 15px; fill: #526174; }
+      .relation { font-size: 13px; fill: #526174; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#354052"/>
+    </marker>
+  </defs>
+  <rect width="2600" height="1480" fill="#fff"/>
+  <text x="1300" y="46" text-anchor="middle" class="title">ResearchLens Relational Schema (SQL only)</text>
+  <text x="1300" y="76" text-anchor="middle" class="subtitle">Tables from the project .sql files | PK = primary key | FK = foreign key | UK = unique constraint</text>
+
+  <!-- Table renderings -->
+  <g transform="translate(55 145)">
+    <rect width="640" height="175" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">USERS</text>
+    <text x="14" y="58" class="col pk">user_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col">name VARCHAR(100) NOT NULL</text>
+    <text x="14" y="102" class="col uk">email VARCHAR(150) UNIQUE NOT NULL</text><text x="14" y="124" class="col">password_hash VARCHAR(255) NOT NULL</text>
+    <text x="14" y="146" class="col">role VARCHAR(20) NOT NULL</text><text x="330" y="146" class="col">created_at TIMESTAMP</text>
+  </g>
+  <g transform="translate(55 350)">
+    <rect width="640" height="150" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">SAVED_SEARCH</text>
+    <text x="14" y="58" class="col pk">search_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col fk">user_id BIGINT UNSIGNED FK → USERS.user_id</text>
+    <text x="14" y="102" class="col">query TEXT NOT NULL</text><text x="330" y="102" class="col">search_type VARCHAR(50)</text>
+    <text x="14" y="124" class="col">created_at TIMESTAMP</text>
+  </g>
+  <g transform="translate(55 530)">
+    <rect width="640" height="170" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">SEARCH_HISTORY</text>
+    <text x="14" y="58" class="col pk">history_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col fk">user_id BIGINT UNSIGNED FK → USERS.user_id</text>
+    <text x="14" y="102" class="col">query TEXT NOT NULL</text><text x="330" y="102" class="col">search_type VARCHAR(50)</text>
+    <text x="14" y="124" class="col">searched_at TIMESTAMP</text><text x="330" y="124" class="col">results_count INT</text>
+  </g>
+  <g transform="translate(55 730)">
+    <rect width="640" height="145" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">SAVED_PAPER</text>
+    <text x="14" y="58" class="col pk">saved_paper_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col fk">user_id BIGINT UNSIGNED FK → USERS.user_id</text>
+    <text x="14" y="102" class="col fk">paper_id BIGINT UNSIGNED FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="124" class="col">saved_at TIMESTAMP · UNIQUE(user_id, paper_id)</text>
+  </g>
+
+  <g transform="translate(820 145)">
+    <rect width="640" height="120" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">RESEARCH_DOMAIN</text>
+    <text x="14" y="58" class="col pk">domain_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col uk">domain_name VARCHAR(100) UNIQUE</text>
+    <text x="14" y="102" class="col">description TEXT</text>
+  </g>
+  <g transform="translate(820 285)">
+    <rect width="640" height="145" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">RESEARCH_SUBDOMAIN</text>
+    <text x="14" y="58" class="col pk">subdomain_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col fk">domain_id BIGINT UNSIGNED FK → RESEARCH_DOMAIN.domain_id</text>
+    <text x="14" y="102" class="col">subdomain_name VARCHAR(150)</text><text x="14" y="124" class="col">description TEXT · UNIQUE(domain_id, subdomain_name)</text>
+  </g>
+  <g transform="translate(820 450)">
+    <rect width="640" height="145" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">RESEARCH_TOPIC</text>
+    <text x="14" y="58" class="col pk">topic_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col fk">subdomain_id BIGINT UNSIGNED FK → RESEARCH_SUBDOMAIN.subdomain_id</text>
+    <text x="14" y="102" class="col">topic_name VARCHAR(150)</text><text x="14" y="124" class="col">description TEXT · UNIQUE(subdomain_id, topic_name)</text>
+  </g>
+  <g transform="translate(820 615)">
+    <rect width="640" height="190" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">RESEARCH_PAPER</text>
+    <text x="14" y="58" class="col pk">paper_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col">title TEXT NOT NULL</text>
+    <text x="14" y="102" class="col">publication_year INT · CHECK 1900–2100</text><text x="14" y="124" class="col uk">doi VARCHAR(255) UNIQUE</text>
+    <text x="14" y="146" class="col">pdf_url TEXT</text><text x="330" y="146" class="col">abstract TEXT</text><text x="14" y="168" class="col">journal VARCHAR(255)</text>
+  </g>
+  <g transform="translate(820 825)">
+    <rect width="640" height="120" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">PAPER_TOPIC</text>
+    <text x="14" y="58" class="col pk fk">paper_id BIGINT UNSIGNED PK, FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="80" class="col pk fk">topic_id BIGINT UNSIGNED PK, FK → RESEARCH_TOPIC.topic_id</text>
+    <text x="14" y="102" class="col">Composite primary key (paper_id, topic_id)</text>
+  </g>
+
+  <g transform="translate(1585 145)">
+    <rect width="640" height="145" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">AUTHOR</text>
+    <text x="14" y="58" class="col pk">author_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col">name VARCHAR(150) NOT NULL</text>
+    <text x="14" y="102" class="col">affiliation VARCHAR(255)</text><text x="330" y="102" class="col">email VARCHAR(150)</text>
+  </g>
+  <g transform="translate(1585 310)">
+    <rect width="640" height="120" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">PAPER_AUTHOR</text>
+    <text x="14" y="58" class="col pk fk">paper_id BIGINT UNSIGNED PK, FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="80" class="col pk fk">author_id BIGINT UNSIGNED PK, FK → AUTHOR.author_id</text>
+    <text x="14" y="102" class="col">author_order INT · CHECK NULL or &gt; 0</text>
+  </g>
+  <g transform="translate(1585 450)">
+    <rect width="640" height="100" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">KEYWORD</text>
+    <text x="14" y="58" class="col pk">keyword_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col uk">keyword_name VARCHAR(100) UNIQUE</text>
+  </g>
+  <g transform="translate(1585 570)">
+    <rect width="640" height="120" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">PAPER_KEYWORD</text>
+    <text x="14" y="58" class="col pk fk">paper_id BIGINT UNSIGNED PK, FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="80" class="col pk fk">keyword_id BIGINT UNSIGNED PK, FK → KEYWORD.keyword_id</text>
+    <text x="14" y="102" class="col">Composite primary key (paper_id, keyword_id)</text>
+  </g>
+  <g transform="translate(1585 710)">
+    <rect width="640" height="145" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">CITATION</text>
+    <text x="14" y="58" class="col pk fk">citing_paper_id BIGINT UNSIGNED PK, FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="80" class="col pk fk">cited_paper_id BIGINT UNSIGNED PK, FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="102" class="col">citation_context TEXT</text><text x="14" y="124" class="col">CHECK (citing_paper_id &lt;&gt; cited_paper_id)</text>
+  </g>
+
+  <!-- Data Matrix and audit tables -->
+  <g transform="translate(55 1035)">
+    <rect width="600" height="210" class="table"/><rect width="600" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">PAPER_EXTRACTION</text>
+    <text x="14" y="58" class="col pk fk">paper_id BIGINT UNSIGNED PK, FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="80" class="col pk">field_key VARCHAR(32) PK</text><text x="14" y="102" class="col">extracted_text TEXT NOT NULL</text>
+    <text x="14" y="124" class="col">numeric_value BIGINT UNSIGNED · source_quote TEXT</text>
+    <text x="14" y="146" class="col">source_section VARCHAR(150) · confidence DECIMAL(4,3)</text>
+    <text x="14" y="168" class="col">origin VARCHAR(10) · updated_at TIMESTAMP</text>
+    <text x="14" y="190" class="col">Composite primary key (paper_id, field_key)</text>
+  </g>
+  <g transform="translate(700 1035)">
+    <rect width="510" height="145" class="table"/><rect width="510" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">MATRIX_CLAIM</text>
+    <text x="14" y="58" class="col pk">claim_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col uk">claim_text VARCHAR(500) UNIQUE</text>
+    <text x="14" y="102" class="col">basis VARCHAR(10)</text><text x="14" y="124" class="col">CHECK basis IN (source, demo)</text>
+  </g>
+  <g transform="translate(1255 1035)">
+    <rect width="600" height="170" class="table"/><rect width="600" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">MATRIX_CLAIM_STANCE</text>
+    <text x="14" y="58" class="col pk fk">claim_id BIGINT UNSIGNED PK, FK → MATRIX_CLAIM.claim_id</text>
+    <text x="14" y="80" class="col pk fk">paper_id BIGINT UNSIGNED PK, FK → RESEARCH_PAPER.paper_id</text>
+    <text x="14" y="102" class="col">stance VARCHAR(12) NOT NULL</text>
+    <text x="14" y="124" class="col">CHECK stance IN (supports, mixed, contradicts)</text>
+    <text x="14" y="146" class="col">Composite primary key (claim_id, paper_id)</text>
+  </g>
+  <g transform="translate(1900 1035)">
+    <rect width="640" height="190" class="table"/><rect width="640" height="34" class="table-head"/>
+    <text x="14" y="23" class="table-name">PAPER_AUDIT_LOG</text>
+    <text x="14" y="58" class="col pk">log_id BIGINT UNSIGNED PK</text><text x="14" y="80" class="col">paper_id BIGINT UNSIGNED (intentionally no FK)</text>
+    <text x="14" y="102" class="col">action VARCHAR(10) · CHECK INSERT / UPDATE / DELETE</text>
+    <text x="14" y="124" class="col">old_title TEXT · new_title TEXT</text>
+    <text x="14" y="146" class="col">changed_by VARCHAR(150)</text><text x="14" y="168" class="col">changed_at TIMESTAMP</text>
+  </g>
+
+  <!-- FK relationship connectors -->
+  <path d="M350 320 L350 350 M350 500 L350 530 M350 320 L350 730" class="line" marker-end="url(#arrow)"/>
+  <text x="365" y="338" class="relation">user_id FK</text>
+  <path d="M1140 265 L1140 285 M1140 430 L1140 450 M1140 595 L1140 615 M1140 805 L1140 825" class="line" marker-end="url(#arrow)"/>
+  <text x="1155" y="278" class="relation">FK</text><text x="1155" y="443" class="relation">FK</text>
+  <path d="M1460 870 C1510 870 1530 370 1585 370" class="line" marker-end="url(#arrow)"/>
+  <path d="M1460 745 C1515 745 1530 630 1585 630" class="line" marker-end="url(#arrow)"/>
+  <path d="M1460 745 C1520 745 1535 780 1585 780" class="line" marker-end="url(#arrow)"/>
+
+  <text x="55" y="1290" class="legend">Composite/bridge tables implement many-to-many relationships. CITATION has two FKs to RESEARCH_PAPER.</text>
+  <text x="55" y="1320" class="legend">PAPER_AUDIT_LOG is trigger-written and deliberately retains deleted-paper audit rows, so paper_id is not an FK.</text>
+  <text x="55" y="1350" class="legend">SQL-only scope: MySQL tables from sql/01_schema.sql, sql/04_member2_advanced.sql, and sql/04b_extractions.sql. No app or vector-store entities.</text>
+
+  <rect x="55" y="1390" width="24" height="18" class="table"/><text x="88" y="1405" class="legend">Table</text>
+  <text x="175" y="1405" class="legend pk">PK</text><text x="210" y="1405" class="legend">Primary key</text>
+  <text x="350" y="1405" class="legend fk">FK</text><text x="385" y="1405" class="legend">Foreign key</text>
+  <text x="535" y="1405" class="legend uk">UK</text><text x="570" y="1405" class="legend">Unique constraint</text>
+</svg>

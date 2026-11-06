@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1320" viewBox="0 0 2400 1320" role="img" aria-labelledby="title description">
+  <title id="title">ResearchLens SQL Entity-Relationship Diagram in Chen Notation</title>
+  <desc id="description">Chen notation diagram of entities, attributes, and relationships represented by the project's SQL files only. Non-relational stores and application components are excluded.</desc>
+  <defs>
+    <style>
+      text { font-family: "Segoe UI", Arial, sans-serif; fill: #17243a; }
+      .title { font-size: 30px; font-weight: 700; }
+      .subtitle { font-size: 17px; fill: #526174; }
+      .entity { fill: #e7f2e7; stroke: #39744c; stroke-width: 2.5; }
+      .entity-text { font-size: 16px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+      .attribute { fill: #fff0f2; stroke: #d65b72; stroke-width: 2; }
+      .attribute-text { font-size: 14px; text-anchor: middle; dominant-baseline: middle; }
+      .relationship { fill: #e9edff; stroke: #5868b5; stroke-width: 2.5; }
+      .relationship-text { font-size: 14px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+      .edge { stroke: #354052; stroke-width: 1.8; fill: none; }
+      .cardinality { font-size: 15px; font-weight: 700; fill: #263248; }
+      .section { fill: #f4f7fa; stroke: #ccd5df; stroke-width: 1.5; }
+      .section-title { font-size: 18px; font-weight: 700; fill: #32465c; }
+      .note { font-size: 14px; fill: #526174; }
+      .key { text-decoration: underline; font-weight: 700; }
+      .dashed { stroke-dasharray: 7 5; }
+      .vector { fill: #f4ecff; stroke: #8552b5; stroke-width: 2.5; stroke-dasharray: 8 5; }
+      .vector-text { font-size: 15px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#354052"/>
+    </marker>
+  </defs>
+
+  <rect width="2400" height="1660" fill="#ffffff"/>
+  <text x="1200" y="46" text-anchor="middle" class="title">ResearchLens — Chen ER Diagram</text>
+  <text x="1200" y="76" text-anchor="middle" class="subtitle">Current MySQL schema | underlined attributes are primary keys | relationship cardinalities shown as 1, N, or M</text>
+  <text x="1200" y="101" text-anchor="middle" class="subtitle">Relational entities and attributes represented by the project's SQL files only</text>
+
+  <!-- Background subject areas -->
+  <rect x="35" y="125" width="680" height="790" rx="14" class="section"/>
+  <text x="60" y="158" class="section-title">User activity and personal library</text>
+  <rect x="755" y="125" width="1610" height="370" rx="14" class="section"/>
+  <text x="780" y="158" class="section-title">Research classification hierarchy</text>
+  <rect x="755" y="515" width="1610" height="690" rx="14" class="section"/>
+  <text x="780" y="548" class="section-title">Papers, contributors, topics, and citations</text>
+  <rect x="35" y="945" width="2325" height="360" rx="14" class="section"/>
+  <text x="60" y="978" class="section-title">Data Matrix and audit data</text>
+  <!-- User entities -->
+  <rect x="300" y="480" width="150" height="48" rx="2" class="entity"/>
+  <text x="375" y="504" class="entity-text">USER</text>
+  <ellipse cx="145" cy="405" rx="78" ry="25" class="attribute"/><text x="145" y="405" class="attribute-text key">user_id (PK)</text>
+  <ellipse cx="370" cy="340" rx="68" ry="25" class="attribute"/><text x="370" y="340" class="attribute-text">name</text>
+  <ellipse cx="585" cy="405" rx="70" ry="25" class="attribute"/><text x="585" y="405" class="attribute-text">email (UNIQUE)</text>
+  <ellipse cx="145" cy="570" rx="92" ry="25" class="attribute"/><text x="145" y="570" class="attribute-text">password_hash</text>
+  <ellipse cx="370" cy="625" rx="56" ry="25" class="attribute"/><text x="370" y="625" class="attribute-text">role</text>
+  <ellipse cx="585" cy="570" rx="76" ry="25" class="attribute"/><text x="585" y="570" class="attribute-text">created_at</text>
+  <path d="M300 488 L217 425 M375 480 L370 365 M450 488 L515 425 M300 520 L218 555 M375 528 L370 600 M450 520 L515 555" class="edge"/>
+
+  <rect x="105" y="205" width="150" height="46" class="entity"/><text x="180" y="228" class="entity-text">SAVED_SEARCH</text>
+  <ellipse cx="95" cy="170" rx="73" ry="22" class="attribute"/><text x="95" y="170" class="attribute-text key">search_id (PK)</text>
+  <ellipse cx="285" cy="170" rx="68" ry="22" class="attribute"/><text x="285" y="170" class="attribute-text">search_type</text>
+  <ellipse cx="95" cy="285" rx="60" ry="22" class="attribute"/><text x="95" y="285" class="attribute-text">query</text>
+  <ellipse cx="285" cy="285" rx="68" ry="22" class="attribute"/><text x="285" y="285" class="attribute-text">created_at</text>
+  <path d="M140 205 L111 190 M220 205 L268 187 M140 251 L110 265 M220 251 L267 268" class="edge"/>
+
+  <rect x="480" y="205" width="165" height="46" class="entity"/><text x="562" y="228" class="entity-text">SEARCH_HISTORY</text>
+  <ellipse cx="445" cy="170" rx="73" ry="22" class="attribute"/><text x="445" y="170" class="attribute-text key">history_id (PK)</text>
+  <ellipse cx="665" cy="170" rx="68" ry="22" class="attribute"/><text x="665" y="170" class="attribute-text">search_type</text>
+  <ellipse cx="445" cy="285" rx="60" ry="22" class="attribute"/><text x="445" y="285" class="attribute-text">query</text>
+  <ellipse cx="665" cy="285" rx="66" ry="22" class="attribute"/><text x="665" y="285" class="attribute-text">searched_at</text>
+  <ellipse cx="555" cy="330" rx="75" ry="22" class="attribute"/><text x="555" y="330" class="attribute-text">results_count</text>
+  <path d="M520 205 L463 188 M605 205 L650 188 M520 251 L463 267 M605 251 L650 267 M562 251 L555 308" class="edge"/>
+
+  <!-- User relations -->
+  <polygon points="280,350 335,385 280,420 225,385" class="relationship"/><text x="280" y="385" class="relationship-text">SAVES</text>
+  <path d="M255 251 L270 350 M335 385 L375 480" class="edge"/>
+  <text x="240" y="324" class="cardinality">N</text><text x="350" y="450" class="cardinality">1</text>
+  <polygon points="520,700 590,738 520,776 450,738" class="relationship"/><text x="520" y="738" class="relationship-text">PERFORMS</text>
+  <path d="M562 251 L540 700 M450 520 L485 700" class="edge"/>
+  <text x="550" y="660" class="cardinality">N</text><text x="455" y="675" class="cardinality">1</text>
+
+  <!-- Taxonomy -->
+  <rect x="905" y="255" width="175" height="48" class="entity"/><text x="992" y="279" class="entity-text">RESEARCH_DOMAIN</text>
+  <ellipse cx="830" cy="208" rx="72" ry="24" class="attribute"/><text x="830" y="208" class="attribute-text key">domain_id (PK)</text>
+  <ellipse cx="1000" cy="198" rx="82" ry="24" class="attribute"/><text x="1000" y="198" class="attribute-text">domain_name (UNIQUE)</text>
+  <ellipse cx="1150" cy="220" rx="70" ry="24" class="attribute"/><text x="1150" y="220" class="attribute-text">description</text>
+  <path d="M930 255 L850 226 M992 255 L1000 222 M1055 255 L1135 237" class="edge"/>
+
+  <rect x="1325" y="255" width="190" height="48" class="entity"/><text x="1420" y="279" class="entity-text">RESEARCH_SUBDOMAIN</text>
+  <ellipse cx="1250" cy="208" rx="88" ry="24" class="attribute"/><text x="1250" y="208" class="attribute-text key">subdomain_id (PK)</text>
+  <ellipse cx="1435" cy="198" rx="82" ry="24" class="attribute"/><text x="1435" y="198" class="attribute-text">subdomain_name</text>
+  <ellipse cx="1590" cy="220" rx="70" ry="24" class="attribute"/><text x="1590" y="220" class="attribute-text">description</text>
+  <path d="M1350 255 L1277 226 M1420 255 L1430 222 M1495 255 L1570 237" class="edge"/>
+
+  <rect x="1755" y="255" width="160" height="48" class="entity"/><text x="1835" y="279" class="entity-text">RESEARCH_TOPIC</text>
+  <ellipse cx="1680" cy="208" rx="72" ry="24" class="attribute"/><text x="1680" y="208" class="attribute-text key">topic_id (PK)</text>
+  <ellipse cx="1845" cy="198" rx="74" ry="24" class="attribute"/><text x="1845" y="198" class="attribute-text">topic_name</text>
+  <ellipse cx="1995" cy="220" rx="70" ry="24" class="attribute"/><text x="1995" y="220" class="attribute-text">description</text>
+  <path d="M1780 255 L1702 226 M1835 255 L1840 222 M1895 255 L1975 237" class="edge"/>
+
+  <polygon points="1190,365 1250,400 1190,435 1130,400" class="relationship"/><text x="1190" y="400" class="relationship-text">CONTAINS</text>
+  <path d="M1080 279 L1130 385 M1250 400 L1325 279" class="edge"/>
+  <text x="1092" y="330" class="cardinality">1</text><text x="1280" y="330" class="cardinality">N</text>
+  <polygon points="1630,365 1680,400 1630,435 1580,400" class="relationship"/><text x="1630" y="400" class="relationship-text">HAS</text>
+  <path d="M1515 279 L1580 385 M1680 400 L1755 279" class="edge"/>
+  <text x="1530" y="330" class="cardinality">1</text><text x="1710" y="330" class="cardinality">N</text>
+
+  <!-- Main paper entity -->
+  <rect x="1130" y="720" width="190" height="55" class="entity"/><text x="1225" y="748" class="entity-text">RESEARCH_PAPER</text>
+  <ellipse cx="870" cy="655" rx="70" ry="25" class="attribute"/><text x="870" y="655" class="attribute-text key">paper_id (PK)</text>
+  <ellipse cx="1040" cy="625" rx="58" ry="25" class="attribute"/><text x="1040" y="625" class="attribute-text">title</text>
+  <ellipse cx="1215" cy="610" rx="85" ry="25" class="attribute"/><text x="1215" y="610" class="attribute-text">publication_year</text>
+  <ellipse cx="1400" cy="625" rx="55" ry="25" class="attribute"/><text x="1400" y="625" class="attribute-text">doi (UNIQUE)</text>
+  <ellipse cx="1560" cy="655" rx="54" ry="25" class="attribute"/><text x="1560" y="655" class="attribute-text">pdf_url</text>
+  <ellipse cx="1600" cy="760" rx="62" ry="25" class="attribute"/><text x="1600" y="760" class="attribute-text">abstract</text>
+  <ellipse cx="1515" cy="860" rx="55" ry="25" class="attribute"/><text x="1515" y="860" class="attribute-text">journal</text>
+  <path d="M1130 730 L936 665 M1160 720 L1070 645 M1210 720 L1215 635 M1280 720 L1370 645 M1320 740 L1510 665 M1320 755 L1540 760 M1290 775 L1490 845" class="edge"/>
+
+  <!-- Topic M:N relationship -->
+  <polygon points="1545,465 1610,502 1545,539 1480,502" class="relationship"/><text x="1545" y="502" class="relationship-text">BELONGS_TO</text>
+  <path d="M1835 303 L1595 465 M1510 539 L1310 720" class="edge"/>
+  <text x="1700" y="380" class="cardinality">M</text><text x="1370" y="625" class="cardinality">N</text>
+
+  <!-- Author -->
+  <rect x="1910" y="610" width="130" height="48" class="entity"/><text x="1975" y="634" class="entity-text">AUTHOR</text>
+  <ellipse cx="1810" cy="580" rx="75" ry="24" class="attribute"/><text x="1810" y="580" class="attribute-text key">author_id (PK)</text>
+  <ellipse cx="1960" cy="565" rx="58" ry="24" class="attribute"/><text x="1960" y="565" class="attribute-text">name</text>
+  <ellipse cx="2100" cy="580" rx="66" ry="24" class="attribute"/><text x="2100" y="580" class="attribute-text">affiliation</text>
+  <ellipse cx="1975" cy="700" rx="55" ry="24" class="attribute"/><text x="1975" y="700" class="attribute-text">email</text>
+  <path d="M1910 615 L1878 594 M1950 610 L1960 589 M2040 615 L2080 594 M1975 658 L1975 676" class="edge"/>
+  <polygon points="1690,700 1765,740 1690,780 1615,740" class="relationship"/><text x="1690" y="740" class="relationship-text">WRITTEN_BY</text>
+  <ellipse cx="1690" cy="835" rx="70" ry="24" class="attribute"/><text x="1690" y="835" class="attribute-text">author_order</text>
+  <path d="M1765 740 L1910 640 M1615 740 L1320 755 M1690 780 L1690 811" class="edge"/>
+  <text x="1830" y="690" class="cardinality">N</text><text x="1400" y="750" class="cardinality">M</text>
+
+  <!-- Keyword -->
+  <rect x="2110" y="820" width="135" height="48" class="entity"/><text x="2177" y="844" class="entity-text">KEYWORD</text>
+  <ellipse cx="2070" cy="765" rx="74" ry="24" class="attribute"/><text x="2070" y="765" class="attribute-text key">keyword_id (PK)</text>
+  <ellipse cx="2240" cy="765" rx="70" ry="24" class="attribute"/><text x="2240" y="765" class="attribute-text">keyword_name</text>
+  <path d="M2140 820 L2090 788 M2205 820 L2230 788" class="edge"/>
+  <polygon points="1900,900 1965,937 1900,974 1835,937" class="relationship"/><text x="1900" y="937" class="relationship-text">TAGGED_WITH</text>
+  <path d="M1965 920 L2110 850 M1835 937 L1320 770" class="edge"/>
+  <text x="2040" y="895" class="cardinality">N</text><text x="1430" y="805" class="cardinality">M</text>
+
+  <!-- Recursive citation relationship -->
+  <polygon points="1000,825 1085,870 1000,915 915,870" class="relationship"/><text x="1000" y="870" class="relationship-text">CITES</text>
+  <ellipse cx="1000" cy="945" rx="86" ry="24" class="attribute"/><text x="1000" y="945" class="attribute-text">citation_context</text>
+  <path d="M1085 855 L1130 755 M915 885 L1130 755 M1000 915 L1000 921" class="edge"/>
+  <text x="1088" y="815" class="cardinality">M</text><text x="1090" y="900" class="cardinality">N</text>
+  <text x="790" y="885" class="note">Recursive relationship:</text>
+  <text x="790" y="905" class="note">a paper cites another paper.</text>
+
+  <!-- Saved paper relationship, crossing subject area boundary -->
+  <polygon points="680,705 755,745 680,785 605,745" class="relationship"/><text x="680" y="745" class="relationship-text">SAVES_PAPER</text>
+  <ellipse cx="680" cy="825" rx="60" ry="22" class="attribute"/><text x="680" y="825" class="attribute-text">saved_at</text>
+  <path d="M450 510 L605 730 M755 745 L1130 745 M680 785 L680 803" class="edge"/>
+  <text x="500" y="610" class="cardinality">M</text><text x="850" y="735" class="cardinality">N</text>
+  <text x="465" y="675" class="note">UNIQUE(user_id, paper_id)</text>
+
+  <!-- Data Matrix -->
+  <rect x="355" y="1050" width="205" height="50" class="entity"/><text x="457" y="1075" class="entity-text">PAPER_EXTRACTION</text>
+  <ellipse cx="180" cy="1020" rx="72" ry="23" class="attribute"/><text x="180" y="1020" class="attribute-text key">paper_id (PK, FK)</text>
+  <ellipse cx="365" cy="1010" rx="70" ry="23" class="attribute"/><text x="365" y="1010" class="attribute-text key">field_key (PK)</text>
+  <ellipse cx="560" cy="1015" rx="76" ry="23" class="attribute"/><text x="560" y="1015" class="attribute-text">numeric_value</text>
+  <ellipse cx="150" cy="1145" rx="92" ry="23" class="attribute"/><text x="150" y="1145" class="attribute-text">extracted_text</text>
+  <ellipse cx="350" cy="1165" rx="72" ry="23" class="attribute"/><text x="350" y="1165" class="attribute-text">source_quote</text>
+  <ellipse cx="550" cy="1155" rx="78" ry="23" class="attribute"/><text x="550" y="1155" class="attribute-text">source_section</text>
+  <ellipse cx="180" cy="1225" rx="62" ry="23" class="attribute"/><text x="180" y="1225" class="attribute-text">confidence</text>
+  <ellipse cx="390" cy="1235" rx="52" ry="23" class="attribute"/><text x="390" y="1235" class="attribute-text">origin</text>
+  <ellipse cx="570" cy="1225" rx="62" ry="23" class="attribute"/><text x="570" y="1225" class="attribute-text">updated_at</text>
+  <path d="M400 1050 L220 1030 M445 1050 L375 1033 M510 1050 L535 1035 M390 1100 L175 1130 M430 1100 L360 1142 M500 1100 L535 1132 M400 1100 L190 1205 M455 1100 L395 1212 M520 1100 L565 1202" class="edge"/>
+  <polygon points="810,1050 875,1087 810,1124 745,1087" class="relationship"/><text x="810" y="1087" class="relationship-text">HAS_DATA</text>
+  <path d="M560 1075 L745 1087 M875 1087 L1130 760" class="edge"/>
+  <text x="610" y="1065" class="cardinality">N</text><text x="1015" y="920" class="cardinality">1</text>
+
+  <rect x="1030" y="1070" width="155" height="48" class="entity"/><text x="1107" y="1094" class="entity-text">MATRIX_CLAIM</text>
+  <ellipse cx="1000" cy="1020" rx="68" ry="23" class="attribute"/><text x="1000" y="1020" class="attribute-text key">claim_id (PK)</text>
+  <ellipse cx="1195" cy="1020" rx="84" ry="23" class="attribute"/><text x="1195" y="1020" class="attribute-text">claim_text (UNIQUE)</text>
+  <ellipse cx="1105" cy="1165" rx="48" ry="23" class="attribute"/><text x="1105" y="1165" class="attribute-text">basis</text>
+  <path d="M1060 1070 L1010 1043 M1150 1070 L1180 1043 M1107 1118 L1105 1142" class="edge"/>
+
+  <polygon points="1510,1070 1595,1115 1510,1160 1425,1115" class="relationship"/><text x="1510" y="1115" class="relationship-text">HAS_STANCE</text>
+  <ellipse cx="1510" cy="1205" rx="54" ry="22" class="attribute"/><text x="1510" y="1205" class="attribute-text">stance</text>
+  <path d="M1185 1094 L1425 1115 M1595 1115 L1320 775 M1510 1160 L1510 1183" class="edge"/>
+  <text x="1280" y="1080" class="cardinality">M</text><text x="1380" y="840" class="cardinality">N</text>
+
+  <rect x="1835" y="1060" width="190" height="50" class="entity"/><text x="1930" y="1085" class="entity-text">PAPER_AUDIT_LOG</text>
+  <ellipse cx="1770" cy="1015" rx="62" ry="22" class="attribute"/><text x="1770" y="1015" class="attribute-text key">log_id (PK)</text>
+  <ellipse cx="1950" cy="1008" rx="60" ry="22" class="attribute"/><text x="1950" y="1008" class="attribute-text">paper_id</text>
+  <ellipse cx="2120" cy="1018" rx="50" ry="22" class="attribute"/><text x="2120" y="1018" class="attribute-text">action</text>
+  <ellipse cx="1780" cy="1160" rx="64" ry="22" class="attribute"/><text x="1780" y="1160" class="attribute-text">old_title</text>
+  <ellipse cx="1960" cy="1175" rx="64" ry="22" class="attribute"/><text x="1960" y="1175" class="attribute-text">new_title</text>
+  <ellipse cx="2120" cy="1155" rx="72" ry="22" class="attribute"/><text x="2120" y="1155" class="attribute-text">changed_by</text>
+  <ellipse cx="1960" cy="1230" rx="70" ry="22" class="attribute"/><text x="1960" y="1230" class="attribute-text">changed_at</text>
+  <path d="M1860 1060 L1785 1035 M1930 1060 L1950 1030 M2000 1060 L2110 1038 M1870 1110 L1790 1138 M1930 1110 L1955 1153 M2000 1110 L2110 1133 M1930 1110 L1960 1208" class="edge"/>
+  <text x="1835" y="1270" class="note">Standalone audit history (paper_id has no FK by design).</text>
+
+  <!-- Legend -->
+  <rect x="35" y="1280" width="28" height="20" class="entity"/><text x="72" y="1297" class="note">Entity</text>
+  <ellipse cx="190" cy="1290" rx="24" ry="14" class="attribute"/><text x="225" y="1297" class="note">Attribute</text>
+  <polygon points="360,1276 385,1290 360,1304 335,1290" class="relationship"/><text x="395" y="1297" class="note">Relationship</text>
+  <text x="560" y="1297" class="note">SQL only · PK = primary key · FK = foreign key · UNIQUE = unique constraint · 1:N and M:N indicate cardinality</text>
+</svg>

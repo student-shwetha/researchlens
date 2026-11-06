@@ -140,6 +140,18 @@ CREATE TABLE search_history (
     CONSTRAINT chk_results_count CHECK (results_count >= 0)
 );
 
+CREATE TABLE saved_paper (
+    saved_paper_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id        BIGINT UNSIGNED NOT NULL,
+    paper_id       BIGINT UNSIGNED NOT NULL,
+    saved_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_saved_paper_user FOREIGN KEY (user_id)
+        REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_saved_paper_paper FOREIGN KEY (paper_id)
+        REFERENCES research_paper(paper_id) ON DELETE CASCADE,
+    CONSTRAINT uq_saved_paper UNIQUE (user_id, paper_id)
+);
+
 -- ---------- Indexes (created AFTER all tables exist) ----------
 CREATE INDEX idx_paper_title          ON research_paper(title(255));
 CREATE INDEX idx_paper_year           ON research_paper(publication_year);
@@ -147,6 +159,8 @@ CREATE INDEX idx_author_name          ON author(name);
 CREATE INDEX idx_topic_name           ON research_topic(topic_name);
 CREATE INDEX idx_search_history_user  ON search_history(user_id);
 CREATE INDEX idx_saved_search_user    ON saved_search(user_id);
+CREATE INDEX idx_saved_paper_user     ON saved_paper(user_id);
+CREATE INDEX idx_saved_paper_paper    ON saved_paper(paper_id);
 
 -- Full-text index (advanced feature: full-text search)
 CREATE FULLTEXT INDEX ft_paper_title_abstract ON research_paper(title, abstract);
