@@ -58,7 +58,7 @@ researchlens/
     ├── middleware.js                      redirects for logged-out users / students on admin pages
     ├── docker-compose.yml                 MySQL 8 + Qdrant; mounts SQL from ../database/
     ├── .env.example                       copy to .env.local
-    └── docs/                              diagrams, tests, and original course material
+    └── docs/                              current SQL diagrams and test results
 ```
 
 ---
