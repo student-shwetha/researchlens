@@ -11,14 +11,14 @@ CREATE TABLE IF NOT EXISTS paper_extraction (
     source_quote   TEXT,
     source_section VARCHAR(150),
     confidence     DECIMAL(4,3),
-    origin         VARCHAR(10) NOT NULL DEFAULT 'source',
+    origin         VARCHAR(12) NOT NULL DEFAULT 'source',
     updated_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (paper_id, field_key),
     CONSTRAINT fk_extraction_paper FOREIGN KEY (paper_id)
         REFERENCES research_paper(paper_id) ON DELETE CASCADE,
     CONSTRAINT chk_extraction_field
         CHECK (field_key IN ('summary','methodology','sample_size','limitations')),
-    CONSTRAINT chk_extraction_origin CHECK (origin IN ('source','demo')),
+    CONSTRAINT chk_extraction_origin CHECK (origin IN ('source','demo','abstract','unavailable')),
     CONSTRAINT chk_extraction_confidence
         CHECK (confidence IS NULL OR confidence BETWEEN 0 AND 1)
 );

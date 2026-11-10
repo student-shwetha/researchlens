@@ -17,7 +17,7 @@ try {
   for (const o of objects) {
     if (Number(o.n) < expect[o.kind]) {
       ok = false;
-      console.log(`  !! expected at least ${expect[o.kind]} ${o.kind}s - run the schema scripts in ../database/`);
+      console.log(`  !! expected at least ${expect[o.kind]} ${o.kind}s - did you run all of sql/01-04b?`);
     }
   }
   const [{ n: matrixTables }] = await query(
@@ -27,7 +27,7 @@ try {
   );
   if (Number(matrixTables) !== 3) {
     ok = false;
-    console.log('  !! Data Matrix tables missing - run ../database/04b_extractions.sql');
+    console.log('  !! Data Matrix tables missing - run sql/04b_extractions.sql');
   }
   const [{ n: savedPaperTable }] = await query(
     `SELECT COUNT(*) AS n FROM information_schema.tables
@@ -35,7 +35,7 @@ try {
   );
   if (Number(savedPaperTable) !== 1) {
     ok = false;
-    console.log('  !! Personal library table missing - run ../database/10_saved_paper_library.sql');
+    console.log('  !! Personal library table missing - run sql/10_saved_paper_library.sql');
   }
   const [{ n: demoAccounts }] = await query(
     `SELECT COUNT(*) AS n FROM users

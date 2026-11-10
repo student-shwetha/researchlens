@@ -213,6 +213,10 @@ export default function ResearchMatrix({ user }) {
               </button>
             </div>
 
+            <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
+              Synthetic demo values are assumptions for interface demonstration only, not results reported by the papers. Do not cite them as evidence; use the paper source for research conclusions.
+            </p>
+
             {activeChips.length > 0 && (
               <div className="flex flex-wrap items-center gap-2 text-xs">
                 {activeChips.map((c) => (

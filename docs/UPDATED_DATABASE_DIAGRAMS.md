@@ -11,8 +11,8 @@ model, or Qdrant/vector store.
   tables with columns, primary keys, foreign keys, composite keys, and unique
   constraints.
 
-The diagrams include tables from `database/01_schema.sql`,
-`database/04_member2_advanced.sql`, and `database/04b_extractions.sql`, including
+The diagrams include tables from `sql/01_schema.sql`,
+`sql/04_member2_advanced.sql`, and `sql/04b_extractions.sql`, including
 `SAVED_PAPER`, `PAPER_AUDIT_LOG`, and the Data Matrix tables. The audit table's
 `paper_id` intentionally has no foreign key so deleted papers' audit records
 remain available.

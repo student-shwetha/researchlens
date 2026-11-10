@@ -8,10 +8,24 @@ const filterInput =
   'mt-2 h-8 w-full rounded-md border border-gray-200 bg-white px-2 text-xs font-normal text-[#1F2937] placeholder:text-gray-400 focus:border-[#1E3A8A] focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]/15';
 
 function OriginBadge({ origin }) {
-  if (origin !== 'demo') return null;
+  const labels = {
+    demo: 'Synthetic demo',
+    abstract: 'Abstract-based',
+    unavailable: 'Needs full text',
+    source: 'Full-text source',
+  };
+  const label = labels[origin];
+  if (!label) return null;
+  const demo = origin === 'demo';
   return (
-    <span className="ml-1.5 inline-block rounded border border-amber-200 bg-amber-50 px-1.5 py-px align-middle text-[11px] font-medium text-amber-800">
-      Demo
+    <span className={`ml-1.5 inline-block rounded border px-1.5 py-px align-middle text-[11px] font-medium ${
+      demo
+        ? 'border-amber-200 bg-amber-50 text-amber-800'
+        : origin === 'unavailable'
+          ? 'border-gray-200 bg-gray-100 text-gray-600'
+          : 'border-blue-200 bg-blue-50 text-blue-800'
+    }`}>
+      {label}
     </span>
   );
 }
@@ -66,6 +80,18 @@ function SourcePopover({ source, onClose }) {
         <blockquote className="mt-3 border-l-2 border-[#1E3A8A] bg-[#F9FAFB] py-2 pl-3 pr-2 leading-relaxed text-gray-700">
           “{cell.quote}”
         </blockquote>
+      ) : cell.origin === 'abstract' ? (
+        <p className="mt-3 rounded-md border border-blue-200 bg-blue-50 p-2.5 leading-relaxed text-blue-900">
+          This note is derived from the catalog abstract. It is not a verified quotation from the linked full text.
+        </p>
+      ) : cell.origin === 'unavailable' ? (
+        <p className="mt-3 rounded-md border border-gray-200 bg-gray-50 p-2.5 leading-relaxed text-gray-700">
+          The catalog abstract does not provide this information. Review the linked full text before drawing a conclusion.
+        </p>
+      ) : cell.origin === 'demo' ? (
+        <p className="mt-3 rounded-md border border-amber-200 bg-amber-50 p-2.5 leading-relaxed text-amber-900">
+          Synthetic demonstration assumption only. This value is not reported by the paper and must not be cited as a research finding.
+        </p>
       ) : (
         <p className="mt-3 rounded-md border border-amber-200 bg-amber-50 p-2.5 leading-relaxed text-amber-900">
           Demo value: there is no source passage for this cell. Replace it with text from the paper.

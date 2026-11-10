@@ -15,16 +15,17 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ../database/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
-      - ../database/02_sample_data_and_queries.sql:/docker-entrypoint-initdb.d/02_sample_data_and_queries.sql:ro
-      - ../database/03_member1_advanced.sql:/docker-entrypoint-initdb.d/03_member1_advanced.sql:ro
-      - ../database/04_member2_advanced.sql:/docker-entrypoint-initdb.d/04_member2_advanced.sql:ro
-      - ../database/04b_extractions.sql:/docker-entrypoint-initdb.d/04b_extractions.sql:ro
-      - ../database/06_correct_gpt3_paper_links.sql:/docker-entrypoint-initdb.d/06_correct_gpt3_paper_links.sql:ro
-      - ../database/07_repair_sample_paper_links.sql:/docker-entrypoint-initdb.d/07_repair_sample_paper_links.sql:ro
-      - ../database/08_replace_synthetic_papers.sql:/docker-entrypoint-initdb.d/08_replace_synthetic_papers.sql:ro
-      - ../database/09_allow_uploaded_pdf_urls.sql:/docker-entrypoint-initdb.d/09_allow_uploaded_pdf_urls.sql:ro
-      - ../database/10_saved_paper_library.sql:/docker-entrypoint-initdb.d/10_saved_paper_library.sql:ro
+      - ./sql/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./sql/02_sample_data_and_queries.sql:/docker-entrypoint-initdb.d/02_sample_data_and_queries.sql:ro
+      - ./sql/03_member1_advanced.sql:/docker-entrypoint-initdb.d/03_member1_advanced.sql:ro
+      - ./sql/04_member2_advanced.sql:/docker-entrypoint-initdb.d/04_member2_advanced.sql:ro
+      - ./sql/04b_extractions.sql:/docker-entrypoint-initdb.d/04b_extractions.sql:ro
+      - ./sql/06_correct_gpt3_paper_links.sql:/docker-entrypoint-initdb.d/06_correct_gpt3_paper_links.sql:ro
+      - ./sql/07_repair_sample_paper_links.sql:/docker-entrypoint-initdb.d/07_repair_sample_paper_links.sql:ro
+      - ./sql/08_replace_synthetic_papers.sql:/docker-entrypoint-initdb.d/08_replace_synthetic_papers.sql:ro
+      - ./sql/09_allow_uploaded_pdf_urls.sql:/docker-entrypoint-initdb.d/09_allow_uploaded_pdf_urls.sql:ro
+      - ./sql/11_matrix_abstract_coverage.sql:/docker-entrypoint-initdb.d/11_matrix_abstract_coverage.sql:ro
+      - ./sql/12_matrix_synthetic_demo_values.sql:/docker-entrypoint-initdb.d/12_matrix_synthetic_demo_values.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s

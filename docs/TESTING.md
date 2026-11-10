@@ -85,7 +85,7 @@ PASS  role change takes effect immediately (role read from DB)
 | `/papers/3/edit` | STUDENT | 307 → `/papers?denied=1` |
 | `/papers/new`, `/admin` | ADMIN | 200 |
 
-## 3. SQL negative tests (`database/05_validation_and_negative_tests.sql`)
+## 3. SQL negative tests (`sql/05_validation_and_negative_tests.sql`)
 
 | Statement | Expected | Result |
 |---|---|---|
@@ -108,7 +108,7 @@ PASS  role change takes effect immediately (role read from DB)
 | delete a domain | ON DELETE CASCADE | subdomain + topic removed (1 → 0) |
 | ALTER ADD/DROP COLUMN, CREATE/DROP TABLE | succeed | succeeded |
 
-## 4. Trigger and view outputs (`database/04_member2_advanced.sql`)
+## 4. Trigger and view outputs (`sql/04_member2_advanced.sql`)
 
 ```
 +----------+----------------------+----------------------+---------+
@@ -183,4 +183,4 @@ PASS  role change takes effect immediately (role read from DB)
 6. Open any paper → *Similar papers* panel with cosine scores.
 7. Log out; log in as `shwetha@example.com` (ADMIN). Add a paper (try a duplicate DOI first → friendly error). Edit it, then delete it (confirmation dialog).
 8. Admin page → audit log shows INSERT / UPDATE / DELETE rows written by triggers; vector index count matches MySQL; promote a student to ADMIN.
-9. Run `database/05` with `--force` to show every constraint rejecting bad data.
+9. Run `sql/05` with `--force` to show every constraint rejecting bad data.

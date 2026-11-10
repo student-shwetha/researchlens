@@ -86,7 +86,9 @@ function Message({ m, onCite }) {
                 <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-gray-600">{c.snippet.replace(/^Demo value:\s*/, '')}</p>
                 <div className="mt-1 flex gap-2 text-[11px] text-gray-500">
                   {c.score != null && <span className="tabular-nums">{Math.round(c.score * 100)}% match</span>}
-                  {c.origin === 'demo' && <span className="text-amber-800">Demo value</span>}
+                  {c.origin === 'demo' && <span className="font-semibold text-amber-800">Synthetic demo — not paper-reported</span>}
+                  {c.origin === 'abstract' && <span className="text-blue-800">Catalog abstract</span>}
+                  {c.origin === 'unavailable' && <span>Full-text review needed</span>}
                 </div>
               </li>
             ))}

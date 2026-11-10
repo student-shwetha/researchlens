@@ -10,6 +10,8 @@
     "start": "next start",
     "index-papers": "node --env-file=.env.local scripts/index-papers.mjs",
     "check-setup": "node --env-file=.env.local scripts/check-setup.mjs",
+    "refresh-matrix-coverage": "node --env-file=.env.local scripts/refresh-matrix-coverage.mjs",
+    "seed-matrix-demo": "node --env-file=.env.local scripts/seed-matrix-demo.mjs",
     "promote-admin": "node --env-file=.env.local scripts/promote-admin.mjs"
   },
   "engines": {

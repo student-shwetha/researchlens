@@ -51,7 +51,7 @@ export default async function Home() {
 
       {stats.error && (
         <div className="alert error">
-          Can&apos;t reach the database: {stats.error}. Check the DB settings in <code>.env.local</code> and that the schema scripts in <code>database/</code> have been run.
+          Can&apos;t reach the database: {stats.error}. Check the DB settings in <code>.env.local</code> and that sql/01–04 have been run.
         </div>
       )}
 
