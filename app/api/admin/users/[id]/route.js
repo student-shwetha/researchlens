@@ -16,3 +16,14 @@ export const PATCH = handler(async (request, { params }) => {
   if (res.affectedRows === 0) throw new HttpError(404, 'User not found.');
   return NextResponse.json({ ok: true });
 });
+
+// DELETE /api/admin/users/:id -> remove an account and its personal data
+export const DELETE = handler(async (request, { params }) => {
+  const admin = await requireAdmin();
+  const id = parseId((await params).id);
+  if (id === admin.user_id) throw new HttpError(400, 'You cannot delete your own account.');
+
+  const result = await query('DELETE FROM users WHERE user_id = ?', [id]);
+  if (result.affectedRows === 0) throw new HttpError(404, 'User not found.');
+  return NextResponse.json({ ok: true });
+});

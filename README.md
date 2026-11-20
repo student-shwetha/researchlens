@@ -21,7 +21,7 @@
 
 **Authentication, search and the second database (Member 2)**
 - Register / login with **bcrypt** password hashes; httpOnly JWT session cookie (8 h).
-- Two roles: **STUDENT** (browse, search, save searches) and **ADMIN** (+ add/edit/delete papers, change roles, rebuild vector index, view audit log). Roles are enforced **on the server in every API route** and re-read from MySQL on each request.
+- Two roles: **STUDENT** (browse, search, save searches) and **ADMIN** (+ add/edit/delete papers, create domains/subdomains/topics and user accounts, remove users, change roles, rebuild vector index, view audit log). Roles are enforced **on the server in every API route** and re-read from MySQL on each request.
 - Search by keywords (MySQL **FULLTEXT** index on title+abstract + keyword table), title or author, with **domain / topic / year-range filters**.
 - Every search is written to `search_history` (query, type, timestamp, result count). Searches can be **saved** to `saved_search`, listed, re-run and removed.
 - **Personal library**: students can save papers to a personal reading list and revisit them later from the My Library page.
@@ -213,6 +213,9 @@ Each `EXPECT ERROR` statement must fail (CHECK, FK, UNIQUE, NOT NULL, trigger `S
 | GET | `/api/semantic/status` | logged in | Qdrant status |
 | POST | `/api/semantic/reindex` | ADMIN | rebuild vectors |
 | PATCH | `/api/admin/users/:id` | ADMIN | change role |
+| POST | `/api/admin/users` | ADMIN | create a user account with an initial password and role |
+| DELETE | `/api/admin/users/:id` | ADMIN | remove a user and their saved papers/search history |
+| POST | `/api/admin/taxonomy` | ADMIN | create a domain, subdomain, or topic |
 
 ---
 

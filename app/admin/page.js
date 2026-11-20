@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getSessionUser } from '@/lib/auth.js';
 import { query } from '@/lib/db.js';
-import RoleSelect from '@/components/RoleSelect.js';
+import AdminManagement from '@/components/AdminManagement.js';
 import ReindexButton from '@/components/ReindexButton.js';
 
 export const dynamic = 'force-dynamic';
@@ -12,11 +12,16 @@ export default async function AdminPage() {
   if (!user) redirect('/login?next=/admin');
   if (user.role !== 'ADMIN') redirect('/papers?denied=1');
 
-  const [users, audit] = await Promise.all([
+  const [users, audit, domains, subdomains] = await Promise.all([
     query(`SELECT user_id, name, email, role, total_searches, saved_searches, last_search_at
              FROM v_user_search_activity ORDER BY user_id`),
     query(`SELECT log_id, paper_id, action, old_title, new_title, changed_at
              FROM paper_audit_log ORDER BY log_id DESC LIMIT 25`),
+    query('SELECT domain_id, domain_name FROM research_domain ORDER BY domain_name'),
+    query(`SELECT s.subdomain_id, s.subdomain_name, d.domain_name
+             FROM research_subdomain s
+             JOIN research_domain d ON d.domain_id = s.domain_id
+            ORDER BY d.domain_name, s.subdomain_name`),
   ]);
 
   return (
@@ -32,26 +37,12 @@ export default async function AdminPage() {
         <ReindexButton />
       </div>
 
-      <h2>Users &amp; roles</h2>
-      <p className="muted small">From the <code>v_user_search_activity</code> view (password hashes are never selected).</p>
-      <div className="table-wrap">
-        <table>
-          <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Searches</th><th>Saved</th><th>Last search</th><th>Role</th></tr></thead>
-          <tbody>
-            {users.map((u) => (
-              <tr key={u.user_id}>
-                <td>{u.user_id}</td>
-                <td>{u.name}</td>
-                <td>{u.email}</td>
-                <td>{u.total_searches}</td>
-                <td>{u.saved_searches}</td>
-                <td className="small muted">{u.last_search_at ?? '—'}</td>
-                <td><RoleSelect userId={u.user_id} role={u.role} disabled={u.user_id === user.user_id} /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <AdminManagement
+        users={users}
+        currentUserId={user.user_id}
+        domains={domains}
+        subdomains={subdomains}
+      />
 
       <h2>Paper audit log</h2>
       <p className="muted small">Written only by the <code>trg_paper_after_*</code> triggers — the app never inserts here itself.</p>
